@@ -6,16 +6,6 @@ from single_job_detail import *
 
 import json
 
-def get_clean_driver():
-    # 配置 Chrome 选项
-    chrome_options = Options()
-    # 可选：禁用缓存
-    chrome_options.add_argument('--disable-cache')
-    chrome_options.add_argument('--disable-application-cache')
-    # 启动浏览器
-    driver = webdriver.Chrome(options=chrome_options)
-    return driver
-
 def add_cookies(driver):
     with open('cookies.json', 'r') as f:
         cookies = json.load(f)
@@ -49,45 +39,48 @@ if __name__ == "__main__":
 
     # while True:
     while True:
-        for city, code in citys.items():
-            driver = get_clean_driver()
+        try:
+            for city, code in citys.items():
+                driver = get_clean_driver()
 
-            init_params['city'] = code
-            driver.get(init_url + "?" + urlencode(init_params))
-            # add_cookies(driver)
+                init_params['city'] = code
+                driver.get(init_url + "?" + urlencode(init_params))
+                # add_cookies(driver)
 
-            wait = WebDriverWait(driver, 100)  # 等待页面加载完成
-            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.job-list-container")))
+                wait = WebDriverWait(driver, 100)  # 等待页面加载完成
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.job-list-container")))
 
-            # 滚动获取全部职位信息
-            # job_list_container = driver.find_element(By.CSS_SELECTOR, "ul.rec-job-list")
-            # scroll(driver, job_list_container, wait)
+                # 滚动获取全部职位信息
+                # job_list_container = driver.find_element(By.CSS_SELECTOR, "ul.rec-job-list")
+                # scroll(driver, job_list_container, wait)
 
-            html_text = driver.page_source
-    
-            soup = BeautifulSoup(html_text, "html.parser")
+                html_text = driver.page_source
 
-            jobs = soup.select("div.card-area")
-            print(f"找到 {len(jobs)} 个职位")
-            cnt = 0
-            for job in jobs:
-                cnt += 1
-                print(f"正在处理第 {cnt} 个职位")
-                # 获取每个职位的链接
-                # job_link = job.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
-                try: 
-                    job_link = job.select_one("a").get("href")
-                    # print(job_link)
-                    # 获取职位详情
-                    job_link = "https://www.zhipin.com" + job_link
-                    ob_info = get_job_detail(job_link)
-                    if ob_info:
-                        job_data_manager.add_job(ob_info)
-                except Exception as e:
-                    print(f"Error processing job: {e}")
-                    # job_data_manager.save()
+                soup = BeautifulSoup(html_text, "html.parser")
 
-            # job_data_manager.save()
-            driver.quit()
+                jobs = soup.select("div.card-area")
+                print(f"找到 {len(jobs)} 个职位")
+                cnt = 0
+                for job in jobs:
+                    cnt += 1
+                    print(f"正在处理第 {cnt} 个职位")
+                    # 获取每个职位的链接
+                    # job_link = job.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
+                    try: 
+                        job_link = job.select_one("a").get("href")
+                        # print(job_link)
+                        # 获取职位详情
+                        job_link = "https://www.zhipin.com" + job_link
+                        ob_info = get_job_detail(job_link)
+                        if ob_info:
+                            job_data_manager.add_job(ob_info)
+                    except Exception as e:
+                        print(f"Error processing job: {e}")
+                        # job_data_manager.save()
 
-        time.sleep(1000) 
+                # job_data_manager.save()
+                driver.quit()
+
+            time.sleep(1000) 
+        except Exception as e:
+            continue

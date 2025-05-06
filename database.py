@@ -19,7 +19,8 @@ class JobDataManager:
         self.connection = pymysql.connect(**self.connection_params)
         
         # 表名
-        self.table_name = 'job_data'
+        # self.table_name = 'job_data' # md5没加city
+        self.table_name = 'job_data_city' # md5加了city
         
         # 检查表是否存在，若不存在则创建
         self._create_table_if_not_exists()

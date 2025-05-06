@@ -46,3 +46,14 @@ init_params = {
     "position": "100102",  # c++岗位
     "experience": experience_require["完全不限"],  # 经验要求
 }
+
+def get_clean_driver():
+    # 配置 Chrome 选项
+    chrome_options = Options()
+    # 可选：禁用缓存
+    chrome_options.add_argument('--disable-cache')
+    chrome_options.add_argument('--disable-application-cache')
+    # chrome_options.add_argument('--headless')
+    # 启动浏览器
+    driver = webdriver.Chrome(options=chrome_options)
+    return driver

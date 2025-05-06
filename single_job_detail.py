@@ -5,7 +5,7 @@ import re
 
 def get_job_detail(url):
     # 设置无头模式
-    boss = webdriver.Chrome()
+    boss = get_clean_driver()
     boss.get(url)
 
     wait = WebDriverWait(boss, 10)  # 等待页面加载完成
@@ -55,7 +55,8 @@ def get_job_detail(url):
 
         job_info["industry"] = soup.select_one("a[ka='job-detail-brandindustry']").text.strip()
 
-        combined_string = job_info["title"] + job_info["describe"] + job_info["company_name"] + job_info["tags"]
+        # 发现不同城市还有md5(title+describe+company_name)一致的，故加上城市信息
+        combined_string = job_info["title"] + job_info["describe"] + job_info["company_name"] + job_info["tags"] + job_info["position"]
         job_info["Idx"] = hashlib.md5(combined_string.encode('utf-8')).hexdigest()
 
     except AttributeError as e:
