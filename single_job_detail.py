@@ -15,8 +15,6 @@ def get_job_detail(url):
     job_info = {}
 
     html_text = boss.page_source
-    with open("job_detail.html", "w", encoding="utf-8") as f:
-        f.write(html_text)
 
     soup = BeautifulSoup(html_text, "html.parser")
     

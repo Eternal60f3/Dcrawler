@@ -3,6 +3,7 @@
 from common import *
 from database import *
 from single_job_detail import *
+from ip_switch import *
 
 import json
 
@@ -36,6 +37,7 @@ def scroll(driver, element, wait):
 
 if __name__ == "__main__":
     job_data_manager = JobDataManager()
+    node_idx = 0
 
     # while True:
     while True:
@@ -81,6 +83,10 @@ if __name__ == "__main__":
                 # job_data_manager.save()
                 driver.quit()
 
-            time.sleep(1000) 
+            time.sleep(600) 
+            # 切换代理节点
+            switch_proxy(nodes[node_idx]) 
+            node_idx = (node_idx + 1) % len(nodes)
+
         except Exception as e:
             continue
