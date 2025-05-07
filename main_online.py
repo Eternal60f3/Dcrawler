@@ -16,24 +16,24 @@ def add_cookies(driver):
         driver.add_cookie(cookie)
 
 
-def scroll(driver, element, wait):
-    # 滚动到页面底部
-    # while True:
-    # 记录当前高度
-        # prev_height = driver.execute_script("return arguments[0].scrollHeight", element)
-        # # 滑动到底部
-        # driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", element)
-        # # 等待加载
-        # # wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.job-list-container")))
-        # time.sleep(10)
-        # # 检查新高度
-        # new_height = driver.execute_script("return arguments[0].scrollHeight", element)
-        # # 如果高度不再变化，退出循环
-        # if new_height == prev_height:
-        #     break
+# def scroll(driver, element, wait):
+#     # 滚动到页面底部
+#     # while True:
+#     # 记录当前高度
+#         # prev_height = driver.execute_script("return arguments[0].scrollHeight", element)
+#         # # 滑动到底部
+#         # driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", element)
+#         # # 等待加载
+#         # # wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.job-list-container")))
+#         # time.sleep(10)
+#         # # 检查新高度
+#         # new_height = driver.execute_script("return arguments[0].scrollHeight", element)
+#         # # 如果高度不再变化，退出循环
+#         # if new_height == prev_height:
+#         #     break
 
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight)", element)
-    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.job-list-container")))
+#     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)", element)
+#     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.job-list-container")))
 
 if __name__ == "__main__":
     job_data_manager = JobDataManager()

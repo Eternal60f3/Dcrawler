@@ -53,6 +53,7 @@ def get_clean_driver():
     # 可选：禁用缓存
     chrome_options.add_argument('--disable-cache')
     chrome_options.add_argument('--disable-application-cache')
+    chrome_options.add_argument('--disable-gpu')
     # chrome_options.add_argument('--headless')
     # 启动浏览器
     driver = webdriver.Chrome(options=chrome_options)
