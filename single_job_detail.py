@@ -19,6 +19,7 @@ def get_job_detail(url):
     soup = BeautifulSoup(html_text, "html.parser")
     
     if soup.select_one("div.sider-company") is None:
+        boss.quit()
         return None
 
     # TODO job.status 获取，用于判断是否已失效
